@@ -1,0 +1,38 @@
+<h2>Exemple de CRUD</h2>
+<p>Nombre de produits : {{ nombreProduits() }}</p>
+<form #forma="ngForm" (ngSubmit)="ajouterProduit(forma)">
+    <label>Nom du produit : </label>
+    <input
+        type="text" name="anarana" [(ngModel)]="nom"
+        required minlength="5" #nomCtrl="ngModel"><br>
+    @if(nomCtrl.invalid && nomCtrl.touched) {
+        @if(nomCtrl.hasError('required')) {
+            <p>Nom obligatoire</p>
+        }
+        @if(nomCtrl.hasError('minlength')) {
+            <p>Le nom doit contenir au moins 5 caractères</p>
+        }
+    }
+    <label>Prix : </label>
+    <input
+        type="number" name="vidiny" [(ngModel)]="prix"
+        required min="0" #prixCtrl="ngModel">{{ prix }}<br>
+    @if(prixCtrl.invalid && prixCtrl.touched) {
+        @if(prixCtrl.hasError('required')) {
+            <p>Le prix est obligatoire</p>
+        }
+        @if(prixCtrl.hasError('min')) {
+            <p>Prix négatif non autorisé. Soyez logique SVP !</p>
+        }
+    }
+    <button type="submit">Ajouter</button>
+</form>
+<ul>
+    @for(produit of produits(); track produit.id) {
+        <li>{{produit.nom}} - 
+            {{produit.prix}} - 
+            {{produit.dateReappro | date:'fullDate' | uppercase}}
+            <button (click)="supprimerProduit(produit.id)">Supprimer</button>
+        </li>
+    }
+</ul>
