@@ -1,21 +1,86 @@
-<h2>Liste des clients</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Téléphone</th>
-        </tr>
-    </thead>
-    <tbody>
-    @for(client of clients(); track client.id) {
-        <tr>
-            <td>{{ client.nom }}</td>
-            <td>{{ client.prenom }}</td>
-            <td>{{ client.email }}</td>
-            <td>{{ client.telephone }}</td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="principal">
+    <div class="liste">
+        <h2>Liste des clients</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(client of clients(); track client.id) {
+                <tr>
+                    <td>{{ client.nom }}</td>
+                    <td>{{ client.prenom }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.telephone }}</td>
+                    <td>
+                        <button
+                            type="button"
+                            (click)="editClient(client)">Modifier</button>
+                        <button
+                            type="button"
+                            (click)="deleteClient(client.id)">Supprimer</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="formulaire">
+        <h3>{{ isEdit() ? "Modification" : "Ajout" }} d'un nouveau client</h3>
+        <form (ngSubmit)="onSubmit()">
+            <div>
+                <label>Nom : </label>
+                <input
+                    type="text"
+                    [(ngModel)]="form.nom"
+                    name="nom"
+                    required
+                    minlength="3">
+                <span>{{ form.nom }}</span>
+            </div>
+            <div>
+                <label>Prénom : </label>
+                <input
+                    type="text"
+                    [(ngModel)]="form.prenom"
+                    name="prenom"
+                    required
+                    minlength="3">
+                <span>{{ form.prenom }}</span>
+            </div>
+            <div>
+                <label>Email : </label>
+                <input
+                    type="text"
+                    [(ngModel)]="form.email"
+                    name="email"
+                    required
+                    minlength="3"
+                    email>
+                <span>{{ form.email }}</span>
+            </div>
+            <div>
+                <label>Téléphone : </label>
+                <input
+                    type="text"
+                    [(ngModel)]="form.telephone"
+                    name="telephone"
+                    required
+                    minlength="3">
+                <span>{{ form.telephone }}</span>
+            </div>
+            <button type="submit">
+                {{ isEdit() ? "Modifier" : "Ajouter" }}
+            </button>
+            @if(isEdit()) {
+                <button type="button" (click)="cancelEdit()">Annuler</button>
+            }
+        </form>
+    </div>
+</div>

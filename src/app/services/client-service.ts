@@ -12,4 +12,13 @@ export class ClientService {
   getClients(): Observable<IClient[]> {
     return this.httpClient.get<IClient[]>(this.apiUrl);
   }
+  addClient(client: IClient): Observable<IClient> {
+    return this.httpClient.post<IClient>(this.apiUrl, client);
+  }
+  updateClient(client: IClient): Observable<IClient> {
+    return this.httpClient.put<IClient>(`${this.apiUrl}/${client.id}`, client);
+  }
+  deleteClient(id: number): Observable<IClient> {
+    return this.httpClient.delete<IClient>(`${this.apiUrl}/${id}`);
+  }
 }
